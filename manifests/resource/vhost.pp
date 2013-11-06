@@ -74,7 +74,7 @@
 #      options like log format to the end.
 #   [*error_log*]               - Where to write error log. May add additional
 #      options like error level to the end.
-#   [*passenger_cgi_param*]     - Allows one to define additional CGI environment 
+#   [*passenger_cgi_param*]     - Allows one to define additional CGI environment
 #      variables to pass to the backend application
 # Actions:
 #
@@ -197,7 +197,7 @@ define nginx::resource::vhost (
   if ($ssl == true) and ($ssl_port == $listen_port) {
     $ssl_only = true
   }
-  
+
   if $use_default_location == true {
     # Create the default location reference for the vHost
     nginx::resource::location {"${name}-default":

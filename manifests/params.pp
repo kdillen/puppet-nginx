@@ -49,7 +49,7 @@ class nginx::params (
   $nx_log_description             = [
     '\'$remote_addr - $remote_user [$time_local] \'',
     '\'"$request" $status $bytes_sent \'',
-    '\'"$http_referer" "$http_user_agent" \'',
+    '\'"$http_referer" "$http_user_agent" "$http_x_forwarded_for" \'',
     '\'"$gzip_ratio"\';',
   ],
 
@@ -62,6 +62,13 @@ class nginx::params (
   $nx_gzip_min_length             = 1100,
   $nx_gzip_buffers                = '4 8k',
   $nx_gzip_types                  = 'text/plain',
+
+  $nx_ssl_global                  = on,
+  $nx_ssl_protocols               = 'SSLv3 TLSv1 TLSv1.1 TLSv1.2',
+  $nx_ssl_ciphers                 = 'ECDHE-RSA-AES256-SHA384:AES256-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH:!AESGCM',
+  $nx_ssl_prefer_server_ciphers   = on,
+  $nx_ssl_session_cache           = 'shared:SSL:10m',
+  $nx_ssl_session_timeout         = '10m',
 
   $nx_output_buffers              = '1 32k',
   $nx_postpone_output             = 1460,
