@@ -48,6 +48,12 @@ class nginx::package(
         before  => Anchor['nginx::package::end'],
       }
     }
+    'gentoo': {
+      class { 'nginx::package::gentoo':
+        require => Anchor['nginx::package::begin'],
+        before  => Anchor['nginx::package::end'],
+      }
+    }
     default: {
       case $::operatingsystem {
         'amazon': {
