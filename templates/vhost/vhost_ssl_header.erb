@@ -6,8 +6,8 @@ server {
   server_name <%= @rewrite_www_to_non_www ? @name.gsub(/^www\./, '') : @server_name.join(" ") %>;
 
   ssl on;
-  ssl_certificate <%= scope.lookupvar('nginx::params::nx_conf_dir') %>/<%= @name.gsub(' ', '_') %>.crt;
-  ssl_certificate_key <%= scope.lookupvar('nginx::params::nx_conf_dir') %>/<%= @name.gsub(' ', '_') %>.key;
+  ssl_certificate <%= scope.lookupvar('nginx::params::nx_ssl_dir') %>/<%= @name.gsub(' ', '_') %>.crt;
+  ssl_certificate_key <%= scope.lookupvar('nginx::params::nx_ssl_dir') %>/<%= @name.gsub(' ', '_') %>.key;
 <% if @ssl_vhost_options -%>
 <% if @ssl_cache -%>
   ssl_session_cache <%= @ssl_cache %>;

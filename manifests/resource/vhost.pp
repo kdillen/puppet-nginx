@@ -281,19 +281,21 @@ define nginx::resource::vhost (
 
     #Generate ssl key/cert with provided file-locations
 
-    #$cert = regsubst($name,' ','_')
+    $cert = regsubst($name,' ','_')
 
     # Check if the file has been defined before creating the file to
     # avoid the error when using wildcard cert on the multiple vhosts
-    #ensure_resource('file', "${nginx::params::nx_conf_dir}/${cert}.crt", {
-    #  owner  => $nginx::params::nx_daemon_user,
-    #  mode   => '0444',
-    #  source => $ssl_cert,
-    #})
-    #ensure_resource('file', "${nginx::params::nx_conf_dir}/${cert}.key", {
-    #  owner  => $nginx::params::nx_daemon_user,
-    #  mode   => '0440',
-    #  source => $ssl_key,
-    #})
+    ensure_resource('file', "${nginx::params::nx_ssl_dir}/${cert}.crt", {
+      mode   => '0444',
+      source => $ssl_cert,
+      owner  => $nginx::params::nx_daemon_user,
+      group  => $nginx::params::nx_daemon_group,
+    })
+    ensure_resource('file', "${nginx::params::nx_ssl_dir}/${cert}.key", {
+      mode   => '0400',
+      source => $ssl_key,
+      owner  => $nginx::params::nx_daemon_user,
+      group  => $nginx::params::nx_daemon_group,
+    })
   }
 }

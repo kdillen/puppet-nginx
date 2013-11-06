@@ -116,6 +116,10 @@ class nginx::params (
   if $::operatingsystem == 'gentoo' {
     $nx_daemon_group = 'nginx'
   }
+  else
+  {
+    $nx_daemon_group = 'root'
+  }
 
   # Service restart after Nginx 0.7.53 could also be just
   # "/path/to/nginx/bin -s HUP" Some init scripts do a configtest, some don't.
