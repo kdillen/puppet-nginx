@@ -1,11 +1,12 @@
 server {
-  listen                <%= @listen_ip %>:<%= @listen_port %><% if @listen_options %> <%= @listen_options %><% end %>;
+  listen <%= @listen_ip %>:<%= @listen_port %><% if @listen_options %> <%= @listen_options %><% end %>;
 <% # check to see if ipv6 support exists in the kernel before applying %>
-<% if @ipv6_enable == 'true' && (defined? @ipaddress6) %>
+<% if @ipv6_enable == 'true' && (defined? @ipaddress6) -%>
   listen [<%= @ipv6_listen_ip %>]:<%= @ipv6_listen_port %> <% if @ipv6_listen_options %><%= @ipv6_listen_options %><% end %> ipv6only=on;
-<% end %>
-  server_name           <%= @rewrite_www_to_non_www ? @name.gsub(/^www\./, '') : @server_name.join(" ") %>;
+<% end -%>
+  server_name <%= @rewrite_www_to_non_www ? @name.gsub(/^www\./, '') : @server_name.join(" ") %>;
 <% if defined? @auth_basic -%>
+
   auth_basic           "<%= @auth_basic %>";
 <% end -%>
 <% if defined? @auth_basic_user_file -%>
@@ -24,7 +25,7 @@ server {
   passenger_set_cgi_param  <%= key %> <%= value %>;
 <% end -%><% end -%>
 <% @proxy_set_header.each do |header| -%>
-  proxy_set_header        <%= header %>;
+  proxy_set_header <%= header %>;
 <% end -%>
 <% if @rewrite_to_https -%>
   if ($ssl_protocol = "") {
@@ -32,6 +33,6 @@ server {
   }
 <% end -%>
 
-  access_log            <%= @access_log_real %>;
-  error_log             <%= @error_log_real %>;
+  access_log <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name.gsub(' ', '_') %>.access_log<% if scope.lookupvar('nginx::params::nx_log_format_name') %> <%= scope.lookupvar('nginx::params::nx_log_format_name') %><% end %>;
+  error_log  <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name.gsub(' ', '_') %>.error_log<% if scope.lookupvar('nginx::params::nx_error_log_level') %> <%= scope.lookupvar('nginx::params::nx_error_log_level') %><% end %>;
 

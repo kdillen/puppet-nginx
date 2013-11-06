@@ -1,15 +1,34 @@
   location <%= @location %> {
-<% if @location_cfg_prepend -%><% @location_cfg_prepend.sort_by {|k,v| k}.each do |key,value| -%>
-    <%= key %>         <%= value %>;
-<% end -%><% end -%>
-<% if @proxy_cache -%>
-    proxy_cache         <%= @proxy_cache %>;
-    proxy_cache_valid   <%= @proxy_cache_valid %>;
+<% if @location_cfg_prepend -%>
+<% @location_cfg_prepend.sort_by {|k,v| k}.each do |key,value| -%>
+    <%= key %> <%= value %>;
 <% end -%>
-    proxy_pass          <%= @proxy %>;
-    proxy_read_timeout  <%= @proxy_read_timeout %>;
+<% end -%>
+<% if @proxy_read_timeout -%>
+    proxy_read_timeout <%= @proxy_read_timeout %>;
+<% end -%>
+<% if @proxy_connect_timeout -%>
+    proxy_connect_timeout <%= @proxy_connect_timeout %>;
+<% end -%>
+<% if @proxy_redirect -%>
+    proxy_redirect <%= @proxy_redirect %>;
+<% end -%>
+<% if !proxy_set_header.empty? -%>
+
+<% @proxy_set_header.each do |value| -%>
+    proxy_set_header <%= value %>;
+<% end -%>
+<% end -%>
+
+<% if @proxy_cache -%>
+    proxy_cache <%= @proxy_cache %>;
+    proxy_cache_valid <%= @proxy_cache_valid %>;
+<% end -%>
 <% if @location_cfg_append -%><% @location_cfg_append.sort_by {|k,v| k}.each do |key,value| -%>
     <%= key %> <%= value %>;
-<% end -%><% end -%>
+<% end -%>
+
+<% end -%>
+    proxy_pass <%= @proxy %>;
   }
 

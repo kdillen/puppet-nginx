@@ -92,28 +92,30 @@ define nginx::resource::location (
     'index.html',
     'index.htm',
     'index.php'],
-  $proxy                = undef,
-  $proxy_read_timeout   = $nginx::params::nx_proxy_read_timeout,
-  $fastcgi              = undef,
-  $fastcgi_params       = '/etc/nginx/fastcgi_params',
-  $fastcgi_script       = undef,
-  $fastcgi_split_path   = undef,
-  $ssl                  = false,
-  $ssl_only             = false,
-  $location_alias       = undef,
-  $location_allow       = undef,
-  $location_deny        = undef,
-  $option               = undef,
-  $stub_status          = undef,
-  $location_custom_cfg  = undef,
-  $location_cfg_prepend = undef,
-  $location_cfg_append  = undef,
-  $try_files            = undef,
-  $proxy_cache          = false,
-  $proxy_cache_valid    = false,
-  $auth_basic           = undef,
-  $auth_basic_user_file = undef,
-  $priority             = 500
+  $proxy                  = undef,
+  $proxy_read_timeout     = $nginx::params::nx_proxy_read_timeout,
+  $fastcgi                = undef,
+  $fastcgi_params         = '/etc/nginx/fastcgi_params',
+  $fastcgi_script         = undef,
+  $fastcgi_split_path     = undef,
+  $ssl                    = false,
+  $ssl_only               = false,
+  $location_alias         = undef,
+  $option                 = undef,
+  $stub_status            = undef,
+  $location_custom_cfg    = undef,
+  $location_cfg_prepend   = undef,
+  $location_cfg_append    = undef,
+  $try_files              = undef,
+  $proxy_cache            = false,
+  $proxy_cache_valid      = false,
+  $proxy_read_timeout     = 90,
+  $proxy_connect_timeout  = undef,
+  $proxy_redirect         = undef,
+  $proxy_set_header       = [],
+  $auth_basic             = undef,
+  $auth_basic_user_file   = undef,
+  $priority               = 500
 ) {
   File {
     owner  => 'root',
@@ -121,7 +123,7 @@ define nginx::resource::location (
     mode   => '0644',
     notify => Class['nginx::service'],
   }
-  
+
   validate_array($index_files)
 
   # # Shared Variables
